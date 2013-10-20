@@ -1,0 +1,18 @@
+package net.minecraft.src;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class RenderManagerExtension
+{
+
+	private Map entityRenderMap; 
+	{
+	entityRenderMap = new HashMap();
+	entityRenderMap.put(net.minecraft.src.EntityCopperArrow.class, new RenderCopperArrow());
+	ModLoader.addAllRenderers(entityRenderMap);
+
+
+
+	}
+}
