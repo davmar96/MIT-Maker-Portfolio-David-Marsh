@@ -1,0 +1,16 @@
+package net.minecraft.src;
+
+public class DamageSourceExtension 
+{
+
+	public static DamageSource causeCopperArrowDamage(EntityCopperArrow par0EntityCopperArrow, Entity par1Entity)
+    {
+        return (new EntityDamageSourceIndirect("arrow", par0EntityCopperArrow, par1Entity)).setProjectile();
+    }
+    
+	public static DamageSource causeIronArrowDamage(EntityIronArrow par0EntityIronArrow, Entity par1Entity)
+    {
+        return (new EntityDamageSourceIndirect("arrow", par0EntityIronArrow, par1Entity)).setProjectile();
+    }
+	
+}
