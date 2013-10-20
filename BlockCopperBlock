@@ -1,0 +1,21 @@
+package net.minecraft.src;
+
+import java.util.Random;
+
+public class BlockCopperBlock extends Block
+{
+    protected BlockCopperBlock(int par1, int par2)
+    {
+        super(par1, par2, Material.rock);
+    }
+    public int idDropped(int i, Random rand, int j)
+    {
+    	return mod_CopperOre.blockcopperblock.blockID;
+    }
+    
+    public int quantityDropped(Random rand)
+    {
+    	return 1;
+    }
+    
+}
