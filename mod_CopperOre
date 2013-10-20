@@ -1,0 +1,352 @@
+package net.minecraft.src;
+
+import java.util.Random;
+
+public class mod_CopperOre extends BaseMod
+{
+
+	public enum CopperArrow 
+	{
+	}
+	public static Item ingotCopper;	
+	static
+	{
+		ingotCopper = (new Item(2100)).setItemName("ingotCopper");	
+	}	
+		// NOTE  THE THIRD, FOURTH, AND FIFTH NUMBER IN EACH SET OF PARENTHESIES IS FOR THE IRON BUCKET//
+	public static Item copperbucket;	
+	static
+	{
+		copperbucket = (new ItemCopperBucket(2101, 0, 0, 0,0)).setItemName("copperBucket");	
+	}
+	public static Item copperbuckethalfWater;
+	static
+	{
+		copperbuckethalfWater = (new ItemCopperBucket(2104, Block.waterMoving.blockID, 1, 0, 1)).setItemName("copperbuckethalfWater").setContainerItem(copperbucket);
+	}
+	public static Item copperbuckethalfLava;
+	static
+	{
+		copperbuckethalfLava = (new ItemCopperBucket(2105, Block.lavaMoving.blockID, 1, 0, 2)).setItemName("copperbuckethalfLava").setContainerItem(copperbucket);
+	}
+	public static Item copperbucketWater;
+	static
+	{
+		copperbucketWater = (new ItemCopperBucket(2102, Block.waterMoving.blockID, 2, 1, 1)).setItemName("copperbucketWater").setContainerItem(copperbucket);
+	}
+	public static Item copperbucketLava;
+	static
+	{
+		copperbucketLava = (new ItemCopperBucket(2103, Block.lavaMoving.blockID, 2, 1, 2)).setItemName("copperbucketLava").setContainerItem(copperbucket);
+	}
+	public static Item copperbucketObsidian;
+	static
+	{
+		copperbucketObsidian = (new ItemCopperBucket(2106, 0, 5, 5, 5)).setItemName("copperbucketObsideon").setContainerItem(copperbucket);
+	}
+	public static Item Plasticizer;	
+	{
+		Plasticizer = (new Item(2107)).setItemName("Plasticizer");	
+	}
+	public static Item Binder;	
+	{
+		Binder = (new Item(2108)).setItemName("Binder");	
+	}
+	public static Item RDX;	
+	{
+		RDX = (new Item(2110)).setItemName("RDX");	
+	}
+	public static Item Sap;	
+	{
+		Sap = (new Item(2109)).setItemName("sap");	
+	}
+	public static Item ItemCopperBow;	
+	{
+		ItemCopperBow = (new ItemCopperBow(2111)).setItemName("ItemCopperBow");	
+	}
+	public static Item CopperArrow;	
+	{
+		CopperArrow = (new Item(2112)).setItemName("CopperArrow");	
+	}
+	public static Item CopperArrowHead;	
+	{
+		CopperArrowHead = (new Item(2113)).setItemName("CopperArrowHead");	
+	}
+	public static Item ItemIronBow;	
+	{
+		ItemIronBow = (new ItemIronBow(2114)).setItemName("ItemIronBow");	
+	}
+	public static Item IronArrowHead;	
+	{
+		IronArrowHead = (new Item(2116)).setItemName("IronArrowHead");	
+	}
+	
+	public static final Block blockcopperore = new BlockCopperOre (125,0).setHardness(3F).setResistance(5F).setBlockName("Copper Ore");
+	public static final Block blockcopperblock = new BlockCopperBlock (126,0).setHardness(5F).setResistance(10F).setBlockName("Copper Block");
+	
+	public static final Item copperpickaxe = new ItemPickaxe (1001, EnumToolMaterial.IRON).setItemName("Copper Pickaxe");
+	public static final Item coppershovel = new ItemSpade (1002, EnumToolMaterial.IRON).setItemName("Copper Shovel");
+	public static final Item copperaxe = new ItemAxe (1003, EnumToolMaterial.IRON).setItemName("Copper Axe");
+	public static final Item copperhoe = new ItemHoe (1004, EnumToolMaterial.IRON).setItemName("Copper Hoe");
+	public static final Item coppersword = new ItemSword (1005, EnumToolMaterial.IRON).setItemName("Copper Sword");
+	
+	public static final Item copperhelmet = new ItemArmor (1006, EnumArmorMaterial.IRON,5, 0).setItemName("Copper Helmet");
+	public static final Item copperchestplate = new ItemArmor (1007, EnumArmorMaterial.IRON,5, 1).setItemName("Copper Chest Plate");
+	public static final Item copperleggings = new ItemArmor (1008, EnumArmorMaterial.IRON,5, 2).setItemName("Copper Leggings");
+	public static final Item copperboots = new ItemArmor (1009, EnumArmorMaterial.IRON,5, 3).setItemName("Copper Boots");
+	
+	public static final Block blockC4 = new BlockC4 (127, 0).setHardness(0.0F).setResistance(1F).setBlockName("C4").setRequiresSelfNotify();
+	
+	public mod_CopperOre()
+		{
+		
+			ModLoader.addName(ingotCopper,  "Copper Ingot");
+			ingotCopper.iconIndex = ModLoader.addOverride("/gui/items.png", ("/ingotCopper.png"));
+		
+			ModLoader.registerBlock(blockcopperore);
+			ModLoader.addName(blockcopperore, "Copper Ore");
+			blockcopperore.blockIndexInTexture = ModLoader.addOverride("/terrain.png", "/customBlock.png");
+			
+			ModLoader.registerBlock(blockcopperblock);
+			ModLoader.addName(blockcopperblock, "Copper Block");
+			blockcopperblock.blockIndexInTexture = ModLoader.addOverride("/terrain.png", "/copperBlock.png");
+			
+			ModLoader.addSmelting(blockcopperore.blockID, new ItemStack(ingotCopper, 1, 0));
+			
+			ModLoader.addRecipe(new ItemStack( blockcopperblock, 1), new Object[]
+					{
+						"***" , "***" , "***" , Character.valueOf ('*'), ingotCopper
+					});
+			ModLoader.addRecipe(new ItemStack( ingotCopper, 9), new Object[]
+					{
+						"*" , Character.valueOf ('*'), blockcopperblock
+					});			
+			
+			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!THIS IS WHERE THE C4 STUFF BEGINS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+			ModLoader.registerBlock(blockC4);
+			ModLoader.addName (blockC4, "C4");
+			blockC4.blockIndexInTexture = ModLoader.addOverride("/terrain.png", "/blockC4.png");
+		
+			ModLoader.addName(Plasticizer,  "Plasticizer");
+			Plasticizer.iconIndex = ModLoader.addOverride("/gui/items.png", ("/Plasticizer.png"));
+			
+			ModLoader.addName(Binder,  "Binder");
+			Binder.iconIndex = ModLoader.addOverride("/gui/items.png", ("/Binder.png"));
+			
+			ModLoader.addName(RDX,  "RDX");
+			RDX.iconIndex = ModLoader.addOverride("/gui/items.png", ("/RDX.png"));
+			
+			ModLoader.addName(Sap,  "Sap");
+			Sap.iconIndex = ModLoader.addOverride("/gui/items.png", ("/Sap.png"));
+			
+			ModLoader.addSmelting(Block.sapling.blockID, new ItemStack(Sap, 1, 0));
+			
+			ModLoader.addRecipe(new ItemStack(Plasticizer, 1), new Object[]
+					{
+						 "WWW", "CLC" , "SSS" , Character.valueOf ('S'), Item.sugar, ('L'), Item.leather, ('C'), Item.clay, ('W'), Item.wheat
+					});
+			
+			ModLoader.addRecipe (new ItemStack(Binder,1), new Object[]
+					{
+						"AGA" , "GSG" , "AGA" , Character.valueOf ('G'), Item.lightStoneDust, ('S'), Item.slimeBall, ('A'), Sap
+					});
+			
+			ModLoader.addRecipe (new ItemStack(RDX,1), new Object[]
+					{
+						"GRG" , "DCD" , "GDG" , Character.valueOf ('G'), Item.gunpowder, ('R'), Item.redstone, ('D'), Block.dirt, ('C'), copperbucketWater
+					});
+			
+			ModLoader.addRecipe(new ItemStack(blockC4, 9), new Object[]
+					{
+						 "RPR" , "RBR" , "RPR" , Character.valueOf ('R'), RDX , ('P'), Plasticizer, ('B'), Binder 
+					});
+		
+			
+			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!THIS IS WHERE THE TOOLS BEGIN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+			
+			ModLoader.addName (coppersword, "Copper Sword");
+			coppersword.iconIndex = ModLoader.addOverride("/gui/items.png", "/copperSword.png");
+			
+			ModLoader.addName (copperhoe, "Copper Hoe");
+			copperhoe.iconIndex = ModLoader.addOverride("/gui/items.png", "/copperHoe.png");
+			
+			ModLoader.addName (copperaxe, "Copper Axe");
+			copperaxe.iconIndex = ModLoader.addOverride("/gui/items.png", "/copperAxe.png");
+			
+			ModLoader.addName(copperpickaxe,"Copper Pickaxe" );
+			copperpickaxe.iconIndex = ModLoader.addOverride("/gui/items.png", "/copperPickaxe.png");
+			
+			ModLoader.addName(coppershovel,"Copper Shovel" );
+			coppershovel.iconIndex = ModLoader.addOverride("/gui/items.png", "/copperShovel.png");
+			
+			
+			ModLoader.addRecipe(new ItemStack(copperhoe, 1), new Object[]
+					{
+						"** " , " s " , " s " , Character.valueOf ('s'), Item.stick , ('*'), ingotCopper
+					});
+			
+			ModLoader.addRecipe(new ItemStack(copperaxe, 1), new Object[]
+					{
+						"** " , "*s " , " s " , Character.valueOf ('s'), Item.stick , ('*'), ingotCopper
+					});
+			
+			ModLoader.addRecipe(new ItemStack(copperpickaxe, 1), new Object[]
+					{
+						"***" , " s " , " s " , Character.valueOf ('s'), Item.stick , ('*'), ingotCopper
+					});
+			
+			ModLoader.addRecipe(new ItemStack(coppershovel, 1), new Object[]
+					{
+						" * " , " s " , " s " , Character.valueOf ('s'), Item.stick , ('*'), ingotCopper
+					});
+			
+			ModLoader.addRecipe(new ItemStack(coppersword, 1), new Object[]
+					{
+						" * " , " * " , " s " , Character.valueOf ('s'), Item.stick , ('*'), ingotCopper
+					});
+			
+			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!THIS IS WHERE THE BOWS AND ARROWS ARE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+			
+			ModLoader.addName(ItemCopperBow,"Copper Bow" );
+			ItemCopperBow.iconIndex = ModLoader.addOverride("/gui/items.png", "/ItemCopperBow.png");
+			
+			ModLoader.addName(CopperArrow,"Copper Arrow" );
+			CopperArrow.iconIndex = ModLoader.addOverride("/gui/items.png", "/CopperArrow.png");
+			
+			ModLoader.addName(CopperArrowHead,"Copper Arrowhead" );
+			CopperArrowHead.iconIndex = ModLoader.addOverride("/gui/items.png", "/CopperArrowHead.png");
+			
+			ModLoader.addRecipe(new ItemStack(ItemCopperBow, 1), new Object[]
+					{
+						" *S" , "* S" , " *S" , Character.valueOf ('S'), Item.silk , ('*'), ingotCopper
+					});
+			
+			ModLoader.addRecipe(new ItemStack(CopperArrowHead, 3), new Object[]
+					{
+						" * " , "* *" , Character.valueOf  ('*'), ingotCopper
+					});
+			
+			ModLoader.addRecipe(new ItemStack(CopperArrow, 8), new Object[]
+					{
+						" H " , " C " , " F " , Character.valueOf  ('C'), ingotCopper, ('H'), CopperArrowHead, ('F'), Item.feather
+					});
+			
+			
+			
+			
+			
+			
+			
+			ModLoader.addName(ItemIronBow,"Iron Bow" );
+			ItemIronBow.iconIndex = ModLoader.addOverride("/gui/items.png", "/ItemIronBow.png");
+			
+			ModLoader.addName(IronArrowHead,"Iron Arrowhead" );
+			IronArrowHead.iconIndex = ModLoader.addOverride("/gui/items.png", "/IronArrowHead.png");
+			
+			ModLoader.addRecipe(new ItemStack(ItemIronBow, 1), new Object[]
+					{
+						" *S" , "* S" , " *S" , Character.valueOf ('S'), Item.silk , ('*'), Item.ingotIron
+					});
+			
+			ModLoader.addRecipe(new ItemStack(IronArrowHead, 3), new Object[]
+					{
+						" * " , "* *" , Character.valueOf  ('*'), Item.ingotIron
+					});
+			
+			
+			
+			
+			
+			
+		
+			
+			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!THIS IS WHERE THE ARMOR BEGINS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+			
+			ModLoader.addName(copperhelmet,  "Copper Helmet");
+			copperhelmet.iconIndex = ModLoader.addOverride("/gui/items.png", "/copperHelmet.png");
+			
+			ModLoader.addName (copperchestplate, "Copper Chest Plate");
+			copperchestplate.iconIndex = ModLoader.addOverride("/gui/items.png", "/copperChestPlate.png");
+			
+			ModLoader.addName (copperleggings, "Copper Leggings");
+			copperleggings.iconIndex = ModLoader.addOverride("/gui/items.png", "/copperLeggings.png");
+			
+			ModLoader.addName (copperboots, "Copper Boots");
+			copperboots.iconIndex = ModLoader.addOverride("/gui/items.png", "/copperBoots.png");
+			
+			
+			
+			
+			ModLoader.addRecipe(new ItemStack(copperhelmet, 1), new Object[]
+					{
+						"***" , "* *", "   " , Character.valueOf  ('*'), ingotCopper
+					});
+			
+			ModLoader.addRecipe(new ItemStack(copperchestplate, 1), new Object[]
+					{
+						"* *" , "***" , "***" , Character.valueOf  ('*'), ingotCopper
+					});
+			
+			ModLoader.addRecipe(new ItemStack(copperleggings, 1), new Object[]
+					{
+						"***" , "* *" , "* *" , Character.valueOf  ('*'), ingotCopper
+					});
+			
+			ModLoader.addRecipe(new ItemStack (copperboots,1), new Object[]
+					{
+						"   " , "* *" , "* *", Character.valueOf('*'), ingotCopper
+					});
+			
+			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!COPPER BUCKIT BEGINS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+			
+			ModLoader.addName(copperbucket,  "Copper Bucket");
+			copperbucket.iconIndex = ModLoader.addOverride("/gui/items.png", ("/copperBucket.png"));
+			
+			ModLoader.addName(copperbucketWater,  "Copper Water Bucket");
+			copperbucketWater.iconIndex = ModLoader.addOverride("/gui/items.png", ("/copperbucketWater.png"));
+			
+			ModLoader.addName(copperbucketLava,  "Copper Lava Bucket");
+			copperbucketLava.iconIndex = ModLoader.addOverride("/gui/items.png", ("/copperbucketLava.png"));
+			
+			ModLoader.addName(copperbuckethalfWater,  " Copper Water Bucket(Half Full)");
+			copperbuckethalfWater.iconIndex = ModLoader.addOverride("/gui/items.png", ("/copperbuckethalfWater.png"));
+			
+			ModLoader.addName(copperbuckethalfLava,  " Copper Lava Bucket(Half Full)");
+			copperbuckethalfLava.iconIndex = ModLoader.addOverride("/gui/items.png", ("/copperbuckethalfLava.png"));
+			
+			ModLoader.addName(copperbucketObsidian, "Obsidian Filled Copper Bucket");
+			copperbucketObsidian.iconIndex = ModLoader.addOverride("/gui/items.png", ("/copperbucketObsidian.png"));
+			
+			ModLoader.addRecipe(new ItemStack(copperbucket, 1), new Object[]
+					{
+						"* *" , " O ", Character.valueOf('*'), ingotCopper, ('O'), Block.obsidian
+					});
+	
+			ModLoader.addRecipe(new ItemStack(Block.obsidian, 1), new Object[]
+					{
+						 "O", Character.valueOf('O'), copperbucketObsidian
+					});
+	
+		}
+	
+	public void generateSurface(World world, Random rand, int BaseX, int BaseZ)
+		{
+			for(int x = 0; x < 10; ++x)
+			{
+				int randPoseX = BaseX + rand.nextInt(16);
+				int randPoseY = rand.nextInt (256);
+				int randPoseZ = BaseZ + rand.nextInt (16);
+				new WorldGenMinable(blockcopperore.blockID, 10).generate(world, rand, randPoseX, randPoseY, randPoseZ);
+			}		
+		}
+		
+	public void load()
+	{
+		
+	};
+	public String getVersion()
+	{
+	return "1.2.5";
+	
+	}
+}
